@@ -235,8 +235,6 @@
       data-type="article">
   {{- template "authorPart" . }}
   &#32;
-  {{- template "issuedPart" . }}.
-  &#32;
   {{- if .title -}}
   <span itemprop="name">
     {{- .title | markdownify -}}
@@ -244,10 +242,7 @@
   {{- end -}}
 
   {{- if isset . "container-title" -}}
-  {{- if .editor -}}{{/* Add `In` before name of Eds. and title*/}}
   &#32;{{- i18n "apa_in" | default "In" -}}&#32;
-  {{- template "editorPart" . }} (Eds.),&#32;
-  {{- end -}}
 
   <i>{{/* italicize journal title */}}
     <span itemprop="about">
@@ -257,7 +252,7 @@
     {{- end -}}
     {{- if isset . "issue" }}({{ .issue }})
     {{- end -}}
-    </i>.{{- end -}}
+    </i>&#32;{{- template "issuedPart" . }}.{{- end -}}
   {{- if isset . "page" -}}
   &#32;<span itemprop="pagination">{{ replace .page "-" "–" }}</span>.
   {{- end -}}

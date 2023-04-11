@@ -100,7 +100,7 @@
 {{- /* -------------------- END Bibliography path -------------------- */ -}}
 
   <span class="hugo-cite-intext"
-        itemprop="citation">(
+        itemprop="citation">
 
     {{- /* Range over citation keys */ -}}
 
@@ -116,7 +116,7 @@
           {{/* Add to the collection of cited references */}}
           {{- $.Page.Scratch.SetInMap "citedBib" $key $currentRef -}}
 
-          <a href="#{{- $key | urlize -}}"><span class="visually-hidden">Citation: </span>
+          <a href="#{{- $key | urlize -}}"><span class="visually-hidden">Citation: </span>[
             {{- $reference := . -}}
 
             {{- /* -------------------- BEGIN Display authors -------------------- */ -}}
@@ -130,7 +130,7 @@
                   {{- i18n "apa_no_author_abbr" | default "n.a." | upper -}}
                 </span>
               {{- else -}}
-                {{- range $authorIndex, $author := $displayAuthors | first 2 -}}
+                {{- range $authorIndex, $author := $displayAuthors | first 1 -}}
                   <span itemprop="author" itemscope itemtype="https://schema.org/Person">
                     {{- with $author.given -}}
                       <meta itemprop="givenName" content="{{ . }}">
@@ -139,16 +139,16 @@
                       <span itemprop="familyName">{{ . | markdownify }}</span>
                     {{- end -}}
                   </span>
-                  {{- if and (eq $authorIndex 0) (gt (len $displayAuthors) 2) -}}
+                  <!-- {{- if and (eq $authorIndex 0) (gt (len $displayAuthors) 2) -}}
                   ,&#32;
                   {{- end -}}
                   {{- if and (eq (len $displayAuthors) 2) (eq $authorIndex 0) -}}&#32;&amp;&#32;
-                  {{- end -}}
+                  {{- end -}} -->
                 {{- end -}}
-                {{ if gt (len $displayAuthors) 2 }}
-                  <em>&amp; al.</em>
-                {{- end -}}
-              {{- end -}},&#32;
+                <!-- {{ if gt (len $displayAuthors) 2 }}
+                  &amp; al.
+                {{- end -}} -->
+              {{- end -}}&#32;
             {{- end -}}
             {{- /* -------------------- END Display authors -------------------- */ -}}
 
@@ -168,7 +168,7 @@
             {{- $formatedPages = (printf "pp.&nbsp;%s" $currentPages) | safeHTML -}}
             {{- end -}}
             {{- $formatedPages }}{{- end -}}
-          </a>
+          ]</a>
 
           {{- /* Eliminate space between css-hidden citation hover block */ -}}
 
@@ -191,4 +191,4 @@
 
     {{- end -}}
     {{- /* END loop over keys*/ -}}
-    )</span>
+  </span>

@@ -48,7 +48,7 @@
             Author-date in-text citation
           */}}
 
-          {{- $displayAuthors := $currentRef.author -}}
+          [{{- $displayAuthors := $currentRef.author -}}
           {{- if not $currentRef.author -}}
           {{- $displayAuthors = $currentRef.editor -}}
           {{- end -}}
@@ -57,27 +57,33 @@
           {{- else -}}
 
           {{- $totalAuthors := len $displayAuthors -}}
-          {{- range $authorIndex, $author := $displayAuthors -}}{{/* BEGIN authors loop */}}
+          {{- range $authorIndex, $author := $displayAuthors | first 1 -}}{{/* BEGIN authors loop */}}
 
           {{- with $author.family -}}
           {{ . }}
           {{- end }}
-          {{- if and (gt $totalAuthors 1) (lt (add $authorIndex 2) $totalAuthors) -}},&#32;
-          {{ end -}}
-          {{ if eq $totalAuthors (add $authorIndex 2) -}}&#32;&amp;&#32;{{ end -}}{{/* Last name has ampersand */}}
+          <!-- {{- if and (eq $authorIndex 0) (gt (len $displayAuthors) 2) -}}
+          ,&#32;
           {{- end -}}
+          {{- if and (eq (len $displayAuthors) 2) (eq $authorIndex 0) -}}&#32;&amp;&#32;
+          {{- end -}} -->
 
+          <!-- {{ if eq $totalAuthors (add $authorIndex 2) -}}&#32;&amp;&#32;{{ end -}}{{/* Last name has ampersand */}} -->
+          {{- end -}}
+          <!-- {{ if gt (len $displayAuthors) 2 }}
+          &amp; al.
+          {{- end -}} -->
           {{- end -}}{{/* END authors loop */}}
 
-          {{/* Begin Issued */}}
-          ({{- if and (isset $currentRef "issued") (isset .issued "date-parts") -}}
-          {{- range $index, $dateParts := (index $currentRef.issued "date-parts") -}}
-          {{- if gt $index 0 -}},&#32;{{ end -}}
-          {{- range first 1 $dateParts -}}{{- . -}}{{- end -}}
-          {{- end -}}
-          {{- else -}}{{/* Fallback if no date */}}
-          {{- i18n "apa_no_date_abbr" | default "n.d." -}}
-          {{- end -}}){{/* End Issued */}}</dt>
+          &#32;
+
+          {{- if and (isset $currentRef "issued") (isset .issued "date-parts") -}}
+            {{- range $index, $dateParts := (index $currentRef.issued "date-parts") -}}
+              {{- range first 1 $dateParts -}}{{- . -}}{{- end -}}
+            {{- end -}}
+          {{- end -}}]
+
+        </dt>
 
         <dd>
           {{/*
