@@ -107,7 +107,7 @@
   {{- if .DOI }}
   <a href="https://doi.org/{{ .DOI }}"
      itemprop="identifier"
-     itemtype="https://schema.org/URL">https://doi.org/{{- .DOI -}}</a>
+     itemtype="https://schema.org/URL">doi:&nbsp;{{- .DOI -}}</a>
   {{- else if .URL }}&#32;
   {{- i18n "apa_retrieved_from" | default "Retrieved from" -}}&#32;
   <a href="{{ .URL }}"
@@ -140,8 +140,6 @@
   {{- template "editorPart" . -}}
   &#32;
   {{- end -}}
-  {{- template "issuedPart" . }}.
-  &#32;
   {{- if .title -}}
   <span itemprop="name">
     <i>{{/* italicize title */}}
@@ -170,7 +168,8 @@
       {{- . -}}
     </span></span>.
   {{- end }}
-
+  {{- template "issuedPart" . }}.
+  &#32;
   {{- template "DOIPart" . -}}
 </span>
 {{/* -------------------- END BOOK TYPE -------------------- */}}
@@ -252,11 +251,11 @@
     {{- end -}}
     {{- if isset . "issue" }}({{ .issue }})
     {{- end -}}
-    </i>&#32;{{- template "issuedPart" . }}.{{- end -}}
+    </i>
   {{- if isset . "page" -}}
   &#32;<span itemprop="pagination">{{ replace .page "-" "–" }}</span>.
   {{- end -}}
-
+  &#32;{{- template "issuedPart" . }}.{{- end -}}
   {{- template "DOIPart" . -}}
 </span>
 {{/* -------------------- END ARTICLE TYPE -------------------- */}}
